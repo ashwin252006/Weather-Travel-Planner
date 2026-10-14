@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Weather Travel Planner - Plan your trips with real-time weather data">
+    <meta name="theme-color" content="#1e3a5f">
+    <title>Weather Travel Planner</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo" aria-label="Weather Travel Planner Home">
+                <i class="fas fa-cloud-sun"></i>
+                <span>Weather Travel Planner</span>
+            </a>
+
+            <div class="nav-menu" id="navMenu">
+                <ul class="nav-links">
+                    <li><a href="index.html" class="nav-link active" aria-current="page">Home</a></li>
+                    <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+                    <li><a href="travel-plans.html" class="nav-link">Travel Plans</a></li>
+                </ul>
+
+                <div class="nav-actions" id="navActions">
+                    <!-- Auth buttons will be inserted here by JavaScript -->
+                </div>
+            </div>
+
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu" aria-expanded="false">
+                <span class="hamburger"></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero" aria-labelledby="hero-title">
+            <div class="hero-background" aria-hidden="true"></div>
+            <div class="hero-overlay" aria-hidden="true"></div>
+            <div class="hero-content">
+                <h1 id="hero-title" class="hero-title">Plan Your Perfect Trip with Real-Time Weather</h1>
+                <p class="hero-subtitle">Discover destinations, compare weather conditions, and create unforgettable travel plans with confidence</p>
+
+                <div class="hero-search" role="search" aria-label="Destination search">
+                    <form id="heroSearchForm" class="search-form" novalidate>
+                        <div class="search-input-wrapper">
+                            <label for="heroSearchInput" class="visually-hidden">Search destination</label>
+                            <input
+                                type="text"
+                                id="heroSearchInput"
+                                class="search-input"
+                                placeholder="Search for a city or destination..."
+                                autocomplete="off"
+                                aria-describedby="searchHelp"
+                                required
+                            >
+                            <div class="search-suggestions" id="searchSuggestions" aria-live="polite" hidden></div>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-lg search-btn">
+                            <i class="fas fa-search" aria-hidden="true"></i>
+                            <span>Search</span>
+                        </button>
+                        <span id="searchHelp" class="visually-hidden">Enter a city name to search for weather</span>
+                    </form>
+                </div>
+
+                <div class="hero-features">
+                    <div class="feature">
+                        <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+                        <span>Global Coverage</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-chart-line" aria-hidden="true"></i>
+                        <span>Weather Trends</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                        <span>Trip Planning</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Weather Display Section -->
+        <section class="weather-section" id="weatherSection" aria-labelledby="weather-title" hidden>
+            <div class="container">
+                <div class="section-header">
+                    <h2 id="weather-title" class="section-title">Current Weather</h2>
+                    <div class="section-actions">
+                        <div class="unit-toggle" role="group" aria-label="Temperature unit">
+                            <button type="button" class="unit-btn active" data-unit="celsius" aria-pressed="true">°C</button>
+                            <button type="button" class="unit-btn" data-unit="fahrenheit" aria-pressed="false">°F</button>
+                        </div>
+                        <button type="button" class="btn btn-outline" id="addToFavoritesBtn" aria-label="Add to favorites">
+                            <i class="far fa-heart" aria-hidden="true"></i>
+                            <span>Save</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Current Weather Card -->
+                <article class="weather-card current-weather" id="currentWeatherCard" aria-live="polite">
+                    <div class="weather-card-header">
+                        <div class="location-info">
+                            <h3 class="location-name" id="locationName">Loading...</h3>
+                            <p class="location-country" id="locationCountry"></p>
+                        </div>
+                        <div class="weather-main">
+                            <div class="temperature" id="temperature">--°</div>
+                            <div class="condition" id="condition">
+                                <img id="weatherIcon" src="" alt="" class="weather-icon">
+                                <span id="conditionText">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="weather-details" id="weatherDetails">
+                        <!-- Populated by JavaScript -->
+                    </div>
+
+                    <div class="weather-updated" id="weatherUpdated">
+                        Last updated: <span id="lastUpdated">--</span>
+                    </div>
+                </article>
+
+                <!-- Forecast Section -->
+                <section class="forecast-section" aria-labelledby="forecast-title">
+                    <h3 id="forecast-title" class="section-title">3-Day Forecast</h3>
+                    <div class="forecast-container" id="forecastContainer" role="list">
+                        <!-- Forecast cards inserted by JavaScript -->
+                    </div>
+                </section>
+
+                <!-- Hourly Forecast -->
+                <section class="hourly-section" aria-labelledby="hourly-title" hidden>
+                    <div class="section-header">
+                        <h3 id="hourly-title" class="section-title">Hourly Forecast</h3>
+                        <button type="button" class="btn btn-link" id="toggleHourly">Show Hours</button>
+                    </div>
+                    <div class="hourly-container" id="hourlyContainer" role="list">
+                        <!-- Hourly cards inserted by JavaScript -->
+                    </div>
+                </section>
+
+                <!-- Weather Charts -->
+                <section class="charts-section" aria-labelledby="charts-title">
+                    <h3 id="charts-title" class="section-title">Weather Trends</h3>
+                    <div class="charts-tabs" role="tablist" aria-label="Chart types">
+                        <button type="button" class="chart-tab active" role="tab" aria-selected="true" data-chart="temperature">Temperature</button>
+                        <button type="button" class="chart-tab" role="tab" aria-selected="false" data-chart="humidity">Humidity</button>
+                        <button type="button" class="chart-tab" role="tab" aria-selected="false" data-chart="precipitation">Precipitation</button>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="weatherChart" aria-label="Weather trend chart"></canvas>
+                    </div>
+                </section>
+
+                <!-- Travel Suggestions -->
+                <section class="suggestions-section" aria-labelledby="suggestions-title">
+                    <h3 id="suggestions-title" class="section-title">Travel Suggestions</h3>
+                    <p class="suggestions-disclaimer">Rule-based recommendations based on current weather conditions</p>
+                    <div class="suggestions-grid" id="suggestionsGrid">
+                        <!-- Suggestion cards inserted by JavaScript -->
+                    </div>
+                </section>
+
+                <!-- Destination Comparison -->
+                <section class="comparison-section" aria-labelledby="comparison-title" hidden>
+                    <div class="section-header">
+                        <h3 id="comparison-title" class="section-title">Destination Comparison</h3>
+                        <button type="button" class="btn btn-link" id="addComparisonBtn">
+                            <i class="fas fa-plus" aria-hidden="true"></i>
+                            Add Destination
+                        </button>
+                    </div>
+                    <div class="comparison-container" id="comparisonContainer">
+                        <!-- Comparison cards inserted by JavaScript -->
+                    </div>
+                    <div class="comparison-chart-container" hidden>
+                        <canvas id="comparisonChart" aria-label="Destination comparison chart"></canvas>
+                    </div>
+                </section>
+            </div>
+        </section>
+
+        <!-- Empty State -->
+        <section class="empty-state" id="emptyState" aria-labelledby="empty-title">
+            <div class="container">
+                <div class="empty-content">
+                    <i class="fas fa-cloud-search" aria-hidden="true"></i>
+                    <h2 id="empty-title">Ready to Plan Your Trip?</h2>
+                    <p>Search for a destination above to see current weather, forecasts, and travel suggestions</p>
+                    <div class="popular-destinations" aria-label="Popular destinations">
+                        <button type="button" class="popular-btn" data-location="Chennai,India">Chennai</button>
+                        <button type="button" class="popular-btn" data-location="Bengaluru,India">Bengaluru</button>
+                        <button type="button" class="popular-btn" data-location="London,UK">London</button>
+                        <button type="button" class="popular-btn" data-location="New York,USA">New York</button>
+                        <button type="button" class="popular-btn" data-location="Tokyo,Japan">Tokyo</button>
+                        <button type="button" class="popular-btn" data-location="Sydney,Australia">Sydney</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <i class="fas fa-cloud-sun" aria-hidden="true"></i>
+                    <span>Weather Travel Planner</span>
+                </div>
+                <p class="footer-text">Weather data provided by <a href="https://www.weatherapi.com/" target="_blank" rel="noopener">WeatherAPI.com</a></p>
+                <p class="footer-copyright">&copy; 2025 Weather Travel Planner. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modals -->
+    <div class="modal-overlay" id="authModal" role="dialog" aria-modal="true" aria-labelledby="authModalTitle" hidden>
+        <div class="modal" role="document">
+            <div class="modal-header">
+                <h3 id="authModalTitle">Sign In</h3>
+                <button type="button" class="modal-close" aria-label="Close modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="auth-tabs" role="tablist">
+                    <button type="button" class="auth-tab active" role="tab" aria-selected="true" data-tab="login">Sign In</button>
+                    <button type="button" class="auth-tab" role="tab" aria-selected="false" data-tab="register">Sign Up</button>
+                </div>
+
+                <form id="loginForm" class="auth-form" role="tabpanel" aria-labelledby="loginTab">
+                    <div class="form-group">
+                        <label for="loginEmail">Email</label>
+                        <input type="email" id="loginEmail" name="email" required autocomplete="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <input type="password" id="loginPassword" name="password" required autocomplete="current-password">
+                    </div>
+                    <div class="form-group form-check">
+                        <input type="checkbox" id="rememberMe" name="rememberMe">
+                        <label for="rememberMe">Remember me</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                    <p class="auth-switch">Don't have an account? <button type="button" class="switch-tab" data-tab="register">Sign up</button></p>
+                </form>
+
+                <form id="registerForm" class="auth-form" role="tabpanel" aria-labelledby="registerTab" hidden>
+                    <div class="form-group">
+                        <label for="registerName">Full Name</label>
+                        <input type="text" id="registerName" name="name" required autocomplete="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="registerEmail">Email</label>
+                        <input type="email" id="registerEmail" name="email" required autocomplete="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="registerPassword">Password</label>
+                        <input type="password" id="registerPassword" name="password" required autocomplete="new-password" minlength="8">
+                        <div class="password-strength" aria-live="polite"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <input type="password" id="confirmPassword" name="confirmPassword" required autocomplete="new-password">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Create Account</button>
+                    <p class="auth-switch">Already have an account? <button type="button" class="switch-tab" data-tab="login">Sign in</button></p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Comparison Modal -->
+    <div class="modal-overlay" id="comparisonModal" role="dialog" aria-modal="true" aria-labelledby="comparisonModalTitle" hidden>
+        <div class="modal modal-lg">
+            <div class="modal-header">
+                <h3 id="comparisonModalTitle">Add Destination to Compare</h3>
+                <button type="button" class="modal-close" aria-label="Close modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="comparisonForm">
+                    <div class="form-group">
+                        <label for="comparisonSearch">Search Destination</label>
+                        <input type="text" id="comparisonSearch" placeholder="Enter city name..." autocomplete="off">
+                        <div class="search-suggestions" id="comparisonSuggestions" hidden></div>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" class="btn btn-secondary" id="cancelComparison">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Add to Comparison</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer" aria-live="polite" aria-label="Notifications"></div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay" hidden>
+        <div class="spinner" aria-label="Loading"></div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+    <script src="js/app.js" type="module"></script>
+</body>
+</html>

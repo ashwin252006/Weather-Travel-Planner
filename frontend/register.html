@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Register for Weather Travel Planner">
+    <title>Register - Weather Travel Planner</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <main class="main-content" style="display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 1rem;">
+        <div class="modal" style="max-width: 450px; margin: 0;">
+            <div class="modal-header">
+                <h3>Sign Up</h3>
+                <a href="index.html" class="modal-close" aria-label="Close">&times;</a>
+            </div>
+            <div class="modal-body">
+                <form id="registerForm" class="auth-form">
+                    <div class="form-group">
+                        <label for="registerName">Full Name</label>
+                        <input type="text" id="registerName" name="name" required autocomplete="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="registerEmail">Email</label>
+                        <input type="email" id="registerEmail" name="email" required autocomplete="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="registerPassword">Password</label>
+                        <input type="password" id="registerPassword" name="password" required autocomplete="new-password" minlength="8">
+                        <div class="password-strength" aria-live="polite"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <input type="password" id="confirmPassword" name="confirmPassword" required autocomplete="new-password">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Create Account</button>
+                    <p class="auth-switch">
+                        Already have an account? 
+                        <a href="login.html" class="switch-tab">Sign in</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </main>
+    <div class="toast-container" id="toastContainer"></div>
+    <script src="js/app.js" type="module"></script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+{
+  "name": "weather-travel-planner-backend",
+  "version": "1.0.0",
+  "description": "Backend for Real-Time Weather and Travel Planner",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test": "jest --coverage",
+    "test:watch": "jest --watch",
+    "db:init": "node src/utils/initDatabase.js",
+    "db:seed": "node src/utils/seedDatabase.js"
+  },
+  "keywords": [
+    "weather",
+    "travel",
+    "planner",
+    "express",
+    "mysql",
+    "api"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.19.2",
+    "mysql2": "^3.10.1",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
+    "dotenv": "^16.4.5",
+    "cors": "^2.8.5",
+    "helmet": "^7.1.0",
+    "express-rate-limit": "^7.4.0",
+    "axios": "^1.7.2",
+    "joi": "^17.13.3",
+    "cookie-parser": "^1.4.6",
+    "express-validator": "^7.1.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0",
+    "@types/jest": "^29.5.12"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "transform": {},
+    "moduleFileExtensions": ["js", "mjs"],
+    "testMatch": ["**/tests/**/*.test.js"]
+  }
+}

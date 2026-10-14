@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Weather Travel Planner - Manage your travel plans">
+    <meta name="theme-color" content="#1e3a5f">
+    <title>Travel Plans - Weather Travel Planner</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo" aria-label="Weather Travel Planner Home">
+                <i class="fas fa-cloud-sun"></i>
+                <span>Weather Travel Planner</span>
+            </a>
+
+            <div class="nav-menu" id="navMenu">
+                <ul class="nav-links">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+                    <li><a href="travel-plans.html" class="nav-link active" aria-current="page">Travel Plans</a></li>
+                </ul>
+
+                <div class="nav-actions" id="navActions">
+                    <!-- Auth buttons will be inserted here by JavaScript -->
+                </div>
+            </div>
+
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu" aria-expanded="false">
+                <span class="hamburger"></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content travel-plans-main">
+        <!-- Page Header -->
+        <header class="page-header" aria-labelledby="page-title">
+            <div class="container">
+                <div class="page-header-content">
+                    <div>
+                        <h1 id="page-title" class="page-title">Travel Plans</h1>
+                        <p class="page-subtitle">Plan and organize your trips with weather insights</p>
+                    </div>
+                    <button type="button" class="btn btn-primary" id="newPlanBtn">
+                        <i class="fas fa-plus" aria-hidden="true"></i>
+                        <span>New Travel Plan</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Filter Tabs -->
+        <div class="filter-tabs" role="tablist" aria-label="Filter travel plans">
+            <button type="button" class="filter-tab active" role="tab" aria-selected="true" data-filter="all">All</button>
+            <button type="button" class="filter-tab" role="tab" aria-selected="false" data-filter="upcoming">Upcoming</button>
+            <button type="button" class="filter-tab" role="tab" aria-selected="false" data-filter="past">Past</button>
+        </div>
+
+        <!-- Travel Plans List -->
+        <section class="travel-plans-section" aria-labelledby="plans-title">
+            <div class="container">
+                <h2 id="plans-title" class="visually-hidden">Travel Plans</h2>
+                <div class="plans-grid" id="plansGrid" role="list">
+                    <!-- Travel plan cards inserted by JavaScript -->
+                </div>
+
+                <!-- Empty State -->
+                <div class="empty-state inline" id="plansEmptyState" hidden>
+                    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                    <h3>No Travel Plans Yet</h3>
+                    <p>Create your first travel plan to start organizing your trips</p>
+                    <button type="button" class="btn btn-primary" id="createFirstPlanBtn">
+                        <i class="fas fa-plus" aria-hidden="true"></i>
+                        Create Plan
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pagination -->
+        <nav class="pagination" id="pagination" aria-label="Travel plans pagination" hidden>
+            <button type="button" class="btn btn-outline" id="prevPage" aria-label="Previous page">&laquo; Previous</button>
+            <span class="pagination-info" id="paginationInfo">Page 1 of 1</span>
+            <button type="button" class="btn btn-outline" id="nextPage" aria-label="Next page">Next &raquo;</button>
+        </nav>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <i class="fas fa-cloud-sun" aria-hidden="true"></i>
+                    <span>Weather Travel Planner</span>
+                </div>
+                <p class="footer-text">Weather data provided by <a href="https://www.weatherapi.com/" target="_blank" rel="noopener">WeatherAPI.com</a></p>
+                <p class="footer-copyright">&copy; 2025 Weather Travel Planner. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Travel Plan Modal -->
+    <div class="modal-overlay" id="planModal" role="dialog" aria-modal="true" aria-labelledby="planModalTitle" hidden>
+        <div class="modal modal-lg" role="document">
+            <div class="modal-header">
+                <h3 id="planModalTitle">Create Travel Plan</h3>
+                <button type="button" class="modal-close" aria-label="Close modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="planForm" novalidate>
+                    <input type="hidden" id="planId" name="id">
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="planDestination">Destination *</label>
+                            <input type="text" id="planDestination" name="destination" required autocomplete="off" placeholder="City, Country">
+                            <div class="search-suggestions" id="planDestinationSuggestions" hidden></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="planCountry">Country</label>
+                            <input type="text" id="planCountry" name="destinationCountry" autocomplete="off" placeholder="Country (optional)">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="planStartDate">Start Date *</label>
+                            <input type="date" id="planStartDate" name="startDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="planEndDate">End Date *</label>
+                            <input type="date" id="planEndDate" name="endDate" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="planNotes">Notes</label>
+                        <textarea id="planNotes" name="notes" rows="4" placeholder="Add notes about your trip..."></textarea>
+                    </div>
+
+                    <div class="form-group forecast-preview" id="forecastPreview" hidden>
+                        <label>Weather Forecast Preview</label>
+                        <div class="forecast-preview-content" id="forecastPreviewContent">
+                            <p class="text-muted">Select dates to see forecast preview</p>
+                        </div>
+                    </div>
+
+                    <div class="modal-actions">
+                        <button type="button" class="btn btn-secondary" id="cancelPlan">Cancel</button>
+                        <button type="submit" class="btn btn-primary" id="submitPlan">
+                            <span class="btn-text">Create Plan</span>
+                            <span class="btn-loading" hidden><i class="fas fa-spinner fa-spin"></i> Saving...</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal-overlay" id="deleteModal" role="dialog" aria-modal="true" aria-labelledby="deleteModalTitle" hidden>
+        <div class="modal" role="document">
+            <div class="modal-header">
+                <h3 id="deleteModalTitle">Delete Travel Plan</h3>
+                <button type="button" class="modal-close" aria-label="Close modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this travel plan? This action cannot be undone.</p>
+                <p id="deletePlanName" class="text-bold"></p>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelDelete">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirmDelete">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Auth Modal (same as index.html) -->
+    <div class="modal-overlay" id="authModal" role="dialog" aria-modal="true" aria-labelledby="authModalTitle" hidden>
+        <div class="modal" role="document">
+            <div class="modal-header">
+                <h3 id="authModalTitle">Sign In</h3>
+                <button type="button" class="modal-close" aria-label="Close modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="auth-tabs" role="tablist">
+                    <button type="button" class="auth-tab active" role="tab" aria-selected="true" data-tab="login">Sign In</button>
+                    <button type="button" class="auth-tab" role="tab" aria-selected="false" data-tab="register">Sign Up</button>
+                </div>
+
+                <form id="loginForm" class="auth-form" role="tabpanel" aria-labelledby="loginTab">
+                    <div class="form-group">
+                        <label for="loginEmail">Email</label>
+                        <input type="email" id="loginEmail" name="email" required autocomplete="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <input type="password" id="loginPassword" name="password" required autocomplete="current-password">
+                    </div>
+                    <div class="form-group form-check">
+                        <input type="checkbox" id="rememberMe" name="rememberMe">
+                        <label for="rememberMe">Remember me</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                    <p class="auth-switch">Don't have an account? <button type="button" class="switch-tab" data-tab="register">Sign up</button></p>
+                </form>
+
+                <form id="registerForm" class="auth-form" role="tabpanel" aria-labelledby="registerTab" hidden>
+                    <div class="form-group">
+                        <label for="registerName">Full Name</label>
+                        <input type="text" id="registerName" name="name" required autocomplete="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="registerEmail">Email</label>
+                        <input type="email" id="registerEmail" name="email" required autocomplete="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="registerPassword">Password</label>
+                        <input type="password" id="registerPassword" name="password" required autocomplete="new-password" minlength="8">
+                        <div class="password-strength" aria-live="polite"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <input type="password" id="confirmPassword" name="confirmPassword" required autocomplete="new-password">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Create Account</button>
+                    <p class="auth-switch">Already have an account? <button type="button" class="switch-tab" data-tab="login">Sign in</button></p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer" aria-live="polite" aria-label="Notifications"></div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay" hidden>
+        <div class="spinner" aria-label="Loading"></div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+    <script src="js/app.js" type="module"></script>
+</body>
+</html>
